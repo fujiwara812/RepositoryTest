@@ -22,10 +22,10 @@ def makeWindow():
     with pm.window():
         with pm.autoLayout():
             ws = {}
-            ws["it1"] = pm.intSliderGrp(label="ŒÂ”", field=True, min=0, max=100, value=30)
-            ws["fl1"] = pm.floatSliderGrp(label="”¼Œa", field=True, min=0.0, max=10.0, value=5.0)
-            ws["fl2"] = pm.floatSliderGrp(label="‘Œ¸’lX", field=True, min=-1.0, max=1.0, value=-0.1)
-            ws["fl3"] = pm.floatSliderGrp(label="‘Œ¸’lY", field=True, min=0.0, max=1.0, value=0.3)
-            pm.button(label="‚Î‚Ëì¬", command=pm.Callback(window3, ws))
+            ws["it1"] = pm.intSliderGrp(label="quantity", field=True, min=0, max=100, value=30)
+            ws["fl1"] = pm.floatSliderGrp(label="ï¿½ï¿½ï¿½a", field=True, min=0.0, max=10.0, value=5.0)
+            ws["fl2"] = pm.floatSliderGrp(label="ï¿½ï¿½ï¿½ï¿½ï¿½lX", field=True, min=-1.0, max=1.0, value=-0.1)
+            ws["fl3"] = pm.floatSliderGrp(label="ï¿½ï¿½ï¿½ï¿½ï¿½lY", field=True, min=0.0, max=1.0, value=0.3)
+            pm.button(label="ï¿½Î‚Ëì¬", command=pm.Callback(window3, ws))
             
 makeWindow()
