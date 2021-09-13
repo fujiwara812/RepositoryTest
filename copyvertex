@@ -1,0 +1,28 @@
+import maya.cmds as cmds
+
+def getVertexPoints(vrt):
+	px = 0
+	py = 0
+	pz = 0
+	
+	for v in vrt:
+		points =  cmds.pointPosition(v, w=True)
+		px += points[0]
+		py += points[1]
+		pz += points[2]
+
+	getpoint = [px, py, pz]
+	return getpoint
+
+selection = cmds.ls(sl=True, fl=True)
+selObject = selection[-1]
+
+for s in selection:
+	if s != selObject:
+		vrt = cmds.ls(cmds.polyListComponentConversion(s, tv=True), fl=True)
+		vrtpoint = getVertexPoints(vrt)
+		copyedObject = cmds.duplicate(selObject)[0]
+		cmds.setAttr(copyedObject + '.translate', vrtpoint[0], vrtpoint[1], vrtpoint[2], type="double3")
+		cmds.select(s, r=True)
+		nConstraint = cmds.normalConstraint(s, copyedObject, aim=[0,1,0], u=[0,1,0])
+		cmds.delete(nConstraint)
