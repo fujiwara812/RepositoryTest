@@ -8,29 +8,20 @@ def getVertexPoint(vertex):
 
 
 def copyObjectTo(name, vertexList):
-    randomRX = cmds.floatSliderGrp('rotateXSlider', q=True,value=True)
-    randomRY = cmds.floatSliderGrp('rotateYSlider', q=True,value=True)
-    randomRZ = cmds.floatSliderGrp('rotateZSlider', q=True,value=True)
-    
-    randomSXmin = cmds.floatSliderGrp('scaleXSliderMin', q=True,value=True)
-    randomSYmin = cmds.floatSliderGrp('scaleYSliderMin', q=True,value=True)
-    randomSZmin = cmds.floatSliderGrp('scaleZSliderMin', q=True,value=True)
-    
-    randomSXmax = cmds.floatSliderGrp('scaleXSliderMax', q=True,value=True)
-    randomSYmax = cmds.floatSliderGrp('scaleYSliderMax', q=True,value=True)
-    randomSZmax = cmds.floatSliderGrp('scaleZSliderMax', q=True,value=True)
-        
     for s in vertexList:
-        rotateX = random.uniform(0,randomRX)
-        rotateY = random.uniform(0,randomRY)
-        rotateZ = random.uniform(0,randomRZ)
+        selgeo = int(random.uniform(0,len(name)))
         
-        scaleX = random.uniform(randomSXmin,randomSXmax)
-        scaleY = random.uniform(randomSYmin,randomSYmax)
-        scaleZ = random.uniform(randomSZmin,randomSZmax)
+        rotateX = random.uniform(0,360)
+        rotateY = random.uniform(0,360)
+        rotateZ = random.uniform(0,360)
+        
+        scaleX = random.uniform(0.5,2)
+        scaleY = random.uniform(0.5,2)
+        scaleZ = random.uniform(0.5,2)
         
         vrtpoint = getVertexPoint(s)
-        copyedObject = cmds.duplicate(name, ilf=True)[0]
+        
+        copyedObject = cmds.duplicate(name[selgeo], ilf=True)[0]
         getscaleX = cmds.getAttr(copyedObject + '.scaleX')
         getscaleY = cmds.getAttr(copyedObject + '.scaleY')
         getscaleZ = cmds.getAttr(copyedObject + '.scaleZ')
@@ -41,23 +32,8 @@ def copyObjectTo(name, vertexList):
 
 
 def Run():
-	selection = cmds.ls(sl=True, fl=True)
-	selObject = selection[-1]
-	vertexList = selection[:-1]
-	copyObjectTo(selObject, vertexList)
-
-
-def copyRunWindow():
-    cmds.window(t='CopyVertex', w=300, h=100)
-    cmds.frameLayout(l='頂点選択後にオブジェクトを選択する')
-    cmds.floatSliderGrp('rotateXSlider', label='Rotate X', field=True, minValue=-360.0, maxValue=360.0, step=0.1,value=360.0)
-    cmds.floatSliderGrp('rotateYSlider', label='Rotate Y', field=True, minValue=-360.0, maxValue=360.0, step=0.1,value=360.0)
-    cmds.floatSliderGrp('rotateZSlider', label='Rotate Z', field=True, minValue=-360.0, maxValue=360.0, step=0.1,value=360.0)
-    cmds.floatSliderGrp('scaleXSliderMin', label='Scale X の最小値', field=True, minValue=0.1, maxValue=1.0, step=0.1,value=0.5)
-    cmds.floatSliderGrp('scaleYSliderMin', label='Scale Y の最小値', field=True, minValue=0.1, maxValue=1.0, step=0.1,value=0.5)
-    cmds.floatSliderGrp('scaleZSliderMin', label='Scale Z の最小値', field=True, minValue=0.1, maxValue=1.0, step=0.1,value=0.5)
-    cmds.floatSliderGrp('scaleXSliderMax', label='Scale X の最大値', field=True, minValue=1.0, maxValue=10.0, step=0.1,value=2.0)
-    cmds.floatSliderGrp('scaleYSliderMax', label='Scale Y の最大値', field=True, minValue=1.0, maxValue=10.0, step=0.1,value=2.0)
-    cmds.floatSliderGrp('scaleZSliderMax', label='Scale Z の最大値', field=True, minValue=1.0, maxValue=10.0, step=0.1,value=2.0)
-    cmds.button(label = 'Copy', command='Run()')
-    cmds.showWindow()
+    vertexList = cmds.ls(sl=True, fl=True)
+    selObject = cmds.ls(sl=True, fl=True, dag=True, g=True)
+    ver_num = len(vertexList) - len(selObject)
+    del vertexList[ver_num:]
+    copyObjectTo(selObject, vertexList)
